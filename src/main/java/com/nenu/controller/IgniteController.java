@@ -21,9 +21,9 @@ public class IgniteController {
     private Ignite ignite;
 
     @GetMapping(value = "/igniteWrite")
-    public String testIgniteWrite(String name) {
+    public String igniteWrite() {
         IgniteCache<String, String> cache = ignite.getOrCreateCache("myCache");
-        cache.put("name", name);
+        cache.put("name", "this is name");
         cache.put("age", "24");
         return "success";
     }
@@ -32,6 +32,19 @@ public class IgniteController {
     public String igniteRead() {
         IgniteCache<String, String> cache = ignite.cache("myCache");
         return cache.get("name");
+    }
+
+    @GetMapping(value = "/write")
+    public String igniteWriteByInput(String key, String value) {
+        IgniteCache<String, String> cache = ignite.getOrCreateCache("myCache");
+        cache.put(key, value);
+        return "success";
+    }
+
+    @GetMapping(value = "/read")
+    public String igniteWriteByRead(String key) {
+        IgniteCache<String, String> cache = ignite.cache("myCache");
+        return cache.get(key);
     }
 
 
